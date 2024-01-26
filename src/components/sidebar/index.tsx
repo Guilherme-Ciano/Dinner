@@ -1,4 +1,4 @@
-import { Collapse } from "@geist-ui/core";
+import { Collapse, Description } from "@geist-ui/core";
 import { LinkCustomized, Wrapper } from "./style";
 
 const Sidebar = () => {
@@ -17,7 +17,7 @@ const Sidebar = () => {
               Orders
             </LinkCustomized>
 
-            <LinkCustomized placeholder={"link"} href="/dashboard">
+            <LinkCustomized placeholder={"link"} href="/">
               Dashboard
             </LinkCustomized>
           </div>

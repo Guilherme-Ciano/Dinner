@@ -57,7 +57,7 @@ export default function NewOrderModal({
       });
 
       setToast({
-        text: "Order created successfully!",
+        text: "✅ Order created successfully!",
         delay: 2000,
         type: "default",
       });
@@ -65,13 +65,13 @@ export default function NewOrderModal({
       console.error(error);
 
       setToast({
-        text: "Order failed to create!",
+        text: "❌ Order failed to create!",
         delay: 5000,
         type: "error",
       });
 
       setToast({
-        text: `${error}`,
+        text: `❌ ${error}`,
         delay: 5000,
         type: "error",
       });

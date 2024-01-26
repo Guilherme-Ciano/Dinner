@@ -1,20 +1,24 @@
-import { Button, Input } from "@geist-ui/core";
+import { Button, Input, useToasts } from "@geist-ui/core";
 import { Filters } from "../styles";
 import { FormState, useForm } from "@/utils/hooks/useForm";
 import { IoSearchSharp } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 
+import { FaEraser } from "react-icons/fa6";
+
 export default function OrderFilters() {
   const [_, setSearchParams] = useSearchParams();
+  const { setToast } = useToasts();
   const initialValues = {
     id: "",
     client: "",
+    dish: "",
   };
 
-  const { values, handleChange } = useForm(initialValues);
+  const { values, handleChange, resetForm } = useForm(initialValues);
 
   function handleFilterOrders(values: FormState) {
-    const { client, id } = values;
+    const { client, id, dish } = values;
 
     setSearchParams((state) => {
       if (id) {
@@ -35,6 +39,34 @@ export default function OrderFilters() {
 
       return state;
     });
+
+    setSearchParams((state) => {
+      if (dish) {
+        state.set("dish", dish.toString());
+      } else {
+        state.delete("dish");
+      }
+
+      return state;
+    });
+  }
+
+  function handleClearFilters() {
+    resetForm();
+
+    setSearchParams((state) => {
+      state.delete("id");
+      state.delete("dish");
+      state.delete("client");
+
+      return state;
+    });
+
+    setToast({
+      text: "✅ Filter has been cleaned successfully!",
+      delay: 2000,
+      type: "default",
+    });
   }
 
   return (
@@ -53,6 +85,13 @@ export default function OrderFilters() {
         onChange={handleChange}
         crossOrigin={undefined}
       />
+      <Input
+        name="dish"
+        placeholder="Search for dishes"
+        value={values.dish}
+        onChange={handleChange}
+        crossOrigin={undefined}
+      />
       <Button
         type="abort"
         iconRight={<IoSearchSharp />}
@@ -60,6 +99,14 @@ export default function OrderFilters() {
         onClick={() => handleFilterOrders(values)}
       >
         Apply filters
+      </Button>
+      <Button
+        type="abort"
+        iconRight={<FaEraser />}
+        placeholder={undefined}
+        onClick={() => handleClearFilters()}
+      >
+        Reset filters
       </Button>
     </Filters>
   );
